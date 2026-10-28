@@ -22,24 +22,21 @@ func NormalizeURL(raw string) (string, error) {
 
   u.Host = strings.ToLower(u.Host))
 
-	// TODO 4: Убери слэш в конце пути, если он есть (и если путь не равен "/").
-	// Подсказка: используй strings.TrimSuffix(u.Path, "/")
-	// Внимание: если u.Path пустой, то он автоматически станет "/" после нормализации.
-
+  if u.Path == "" {
+    u.Path = "/"
+  } else if u.Path != "/" {
+    u.Path = strings.TrimSuffix(u.Path, "/")
+  }
 	
-	// TODO 5: Убери якорь (u.Fragment = "").
+  u.Fragment = ""
 	
-	// TODO 6: Убери UTM-метки из query-параметров. 
-	// Подсказка: это сложно, поэтому вот шпаргалка:
-	// q := u.Query()
-	// for key := range q {
-	//     if strings.HasPrefix(key, "utm_") {
-	//         q.Del(key)
-	//     }
-	// }
-	// u.RawQuery = q.Encode()
-
-	// TODO 7: Верни нормализованный URL в виде строки (u.String()) и nil.
+  q := u.Query()
+  for key := range q {
+    if strings.HasPrefix(key, "utm_") {
+      q.Del(key)
+    }
+  }
+  u.RawQuery = q.Encode()
 	
-	return "", nil
+	return u.String(), nil
 }
