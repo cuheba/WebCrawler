@@ -20,7 +20,7 @@ func NormalizeURL(raw string) (string, error) {
     return "", fmt.Errorf("invalid scheme: %s", u.Scheme)
   }
 
-  u.Host = strings.ToLower(u.Host))
+  u.Host = strings.ToLower(u.Host)
 
   if u.Path == "" {
     u.Path = "/"
